@@ -114,6 +114,7 @@ ALL_MACHINES = \
 	cpu-fr30.lo \
 	cpu-frv.lo \
 	cpu-ft32.lo \
+	cpu-greyfox.lo \
 	cpu-h8300.lo \
 	cpu-hppa.lo \
 	cpu-i386.lo \
@@ -198,6 +199,7 @@ ALL_MACHINES_CFILES = \
 	cpu-fr30.c \
 	cpu-frv.c \
 	cpu-ft32.c \
+	cpu-greyfox.c \
 	cpu-h8300.c \
 	cpu-hppa.c \
 	cpu-i386.c \
@@ -557,6 +559,9 @@ BFD64_BACKENDS = \
 	elf64-amdgcn.lo \
 	elf64-bpf.lo \
 	elf64-gen.lo \
+	elf32-greyfox.lo \
+	elf64-greyfox.lo \
+	elfxx-greyfox.lo \
 	elf64-hppa.lo \
 	elf64-ia64-vms.lo \
 	elf64-ia64.lo \
@@ -623,6 +628,7 @@ BFD64_BACKENDS_CFILES = \
 	elf64.c \
 	elfn32-mips.c \
 	elfxx-aarch64.c \
+	elfxx-greyfox.c \
 	elfxx-ia64.c \
 	elfxx-kvx.c \
 	elfxx-loongarch.c \
@@ -691,6 +697,7 @@ SOURCE_CFILES = \
 BUILD_CFILES = \
 	elf32-aarch64.c elf64-aarch64.c \
 	elf32-kvx.c elf64-kvx.c \
+	elf32-greyfox.c elf64-greyfox.c \
 	elf32-ia64.c elf64-ia64.c \
 	elf32-loongarch.c elf64-loongarch.c \
 	elf32-riscv.c elf64-riscv.c \
@@ -867,6 +874,14 @@ elf32-kvx.c : elfnn-kvx.c
 
 elf64-kvx.c : elfnn-kvx.c
 	$(AM_V_at)echo "#line 1 \"$<\"" > $@
+	$(AM_V_GEN)$(SED) -e s/NN/64/g < $< >> $@
+
+elf32-greyfox.c : elfnn-greyfox.c
+	$(AM_V_at)echo "#line 1 \"elfnn-greyfox.c\"" > $@
+	$(AM_V_GEN)$(SED) -e s/NN/32/g < $< >> $@
+
+elf64-greyfox.c : elfnn-greyfox.c
+	$(AM_V_at)echo "#line 1 \"elfnn-greyfox.c\"" > $@
 	$(AM_V_GEN)$(SED) -e s/NN/64/g < $< >> $@
 
 elf32-loongarch.c : elfnn-loongarch.c

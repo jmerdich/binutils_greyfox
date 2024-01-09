@@ -1110,6 +1110,9 @@ case "${target}" in
   ft32-*-*)
     noconfigdirs="$noconfigdirs target-rda gprof"
     ;;
+  greyfox-*-*)
+    noconfigdirs="$noconfigdirs ${libgcj} libctf gdb sim binutils opcodes gas ld gprof"
+    ;;
   moxie-*-*)
     noconfigdirs="$noconfigdirs"
     ;;

@@ -434,6 +434,9 @@
 #define EM_CYGNUS_MN10300	0xbeef
 #define EM_CYGNUS_MN10200	0xdead
 
+/* Greyfox experimental cpu */
+#define EM_GREYFOX		0xc0de /* selected by totally random methods. *blinks twice*  */
+
 /* Renesas M32C and M16C.  */
 #define EM_M32C_OLD		0xFEB0
 

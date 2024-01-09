@@ -193,6 +193,7 @@ crx*)		 targ_archs=bfd_crx_arch ;;
 csky*)		 targ_archs=bfd_csky_arch ;;
 dlx*)		 targ_archs=bfd_dlx_arch ;;
 fido*)		 targ_archs=bfd_m68k_arch ;;
+greyfox*)	 targ_archs=bfd_greyfox_arch ;;
 hppa*)		 targ_archs=bfd_hppa_arch ;;
 i[3-7]86)	 targ_archs=bfd_i386_arch ;;
 ia16)		 targ_archs=bfd_i386_arch ;;
@@ -538,6 +539,19 @@ case "${targ}" in
   moxie-*-moxiebox*)
     targ_defvec=moxie_elf32_le_vec
     ;;
+
+  greyfox-*-*)
+    targ_defvec=greyfox_elf32_vec
+    targ_selvecs="greyfox_elf32_vec greyfox_elf64_vec"
+    want64=true
+    ;;
+#ifdef BFD64
+  greyfox-*-* | greyfox64*-*-*)
+    targ_defvec=greyfox_elf64_vec
+    targ_selvecs="greyfox_elf32_vec greyfox_elf64_vec"
+    want64=true
+    ;;
+#endif
 
   h8300*-*-elf | h8300*-*-rtems*)
     targ_defvec=h8300_elf32_vec

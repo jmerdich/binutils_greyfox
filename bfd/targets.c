@@ -735,6 +735,8 @@ extern const bfd_target epiphany_elf32_vec;
 extern const bfd_target fr30_elf32_vec;
 extern const bfd_target frv_elf32_vec;
 extern const bfd_target frv_elf32_fdpic_vec;
+extern const bfd_target greyfox_elf32_vec;
+extern const bfd_target greyfox_elf64_vec;
 extern const bfd_target h8300_elf32_vec;
 extern const bfd_target h8300_elf32_linux_vec;
 extern const bfd_target hppa_elf32_vec;
@@ -1079,6 +1081,11 @@ static const bfd_target * const _bfd_target_vector[] =
 
 	&frv_elf32_vec,
 	&frv_elf32_fdpic_vec,
+
+	&greyfox_elf32_vec,
+#ifdef BFD64
+	&greyfox_elf64_vec,
+#endif
 
 	&h8300_elf32_vec,
 	&h8300_elf32_linux_vec,

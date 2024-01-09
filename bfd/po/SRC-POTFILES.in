@@ -61,6 +61,7 @@ cpu-epiphany.c
 cpu-fr30.c
 cpu-frv.c
 cpu-ft32.c
+cpu-greyfox.c
 cpu-h8300.c
 cpu-h8300.h
 cpu-hppa.c
@@ -260,6 +261,7 @@ elflink.c
 elfn32-mips.c
 elfxx-aarch64.c
 elfxx-aarch64.h
+elfxx-greyfox.c
 elfxx-ia64.c
 elfxx-ia64.h
 elfxx-kvx.c
