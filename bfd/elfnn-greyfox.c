@@ -23,8 +23,8 @@
 #include "libbfd.h"
 #include "elf-bfd.h"
 
-#define TARGET_BIG_SYM 	bfd_elfNN_greyfox_vec
-#define TARGET_BIG_NAME	"elfNN-greyfox"
+#define TARGET_LITTLE_SYM 	greyfox_elfNN_vec
+#define TARGET_LITTLE_NAME	"elfNN-greyfox"
 #define ELF_ARCH	bfd_arch_greyfox
 #define ELF_MACHINE_CODE	EM_GREYFOX
 #define ELF_MAXPAGESIZE	1
