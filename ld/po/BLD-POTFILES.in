@@ -114,6 +114,7 @@ eelf32fr30.c
 eelf32frv.c
 eelf32frvfd.c
 eelf32ft32.c
+eelf32greyfox.c
 eelf32ip2k.c
 eelf32iq10.c
 eelf32iq2000.c
@@ -187,6 +188,7 @@ eelf64briscv_lp64.c
 eelf64briscv_lp64f.c
 eelf64btsmip.c
 eelf64btsmip_fbsd.c
+eelf64greyfox.c
 eelf64hppa.c
 eelf64kvx.c
 eelf64kvx_linux.c

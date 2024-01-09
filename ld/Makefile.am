@@ -409,6 +409,7 @@ ALL_64_EMULATION_SOURCES = \
 	eelf32ebmipvxworks.c \
 	eelf32elmip.c \
 	eelf32elmipvxworks.c \
+	eelf32greyfox.c \
 	eelf32kvx.c \
 	eelf32l4300.c \
 	eelf32lmip.c \
@@ -442,6 +443,7 @@ ALL_64_EMULATION_SOURCES = \
 	eelf64briscv_lp64f.c \
 	eelf64btsmip.c \
 	eelf64btsmip_fbsd.c \
+	eelf64greyfox.c \
 	eelf64hppa.c \
 	eelf64kvx.c \
 	eelf64kvx_linux.c \

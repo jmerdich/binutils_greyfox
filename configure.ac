@@ -1111,7 +1111,7 @@ case "${target}" in
     noconfigdirs="$noconfigdirs target-rda gprof"
     ;;
   greyfox-*-*)
-    noconfigdirs="$noconfigdirs ${libgcj} gdb sim ld gprof"
+    noconfigdirs="$noconfigdirs ${libgcj} gdb sim gprof"
     ;;
   moxie-*-*)
     noconfigdirs="$noconfigdirs"

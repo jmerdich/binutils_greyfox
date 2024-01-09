@@ -919,6 +919,7 @@ ALL_64_EMULATION_SOURCES = \
 	eelf32ebmipvxworks.c \
 	eelf32elmip.c \
 	eelf32elmipvxworks.c \
+	eelf32greyfox.c \
 	eelf32kvx.c \
 	eelf32l4300.c \
 	eelf32lmip.c \
@@ -952,6 +953,7 @@ ALL_64_EMULATION_SOURCES = \
 	eelf64briscv_lp64f.c \
 	eelf64btsmip.c \
 	eelf64btsmip_fbsd.c \
+	eelf64greyfox.c \
 	eelf64hppa.c \
 	eelf64kvx.c \
 	eelf64kvx_linux.c \
@@ -1387,6 +1389,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32frv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32frvfd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32ft32.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32greyfox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32ip2k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32iq10.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32iq2000.Po@am__quote@
@@ -1460,6 +1463,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64briscv_lp64f.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64btsmip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64btsmip_fbsd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64greyfox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64hppa.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64kvx.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64kvx_linux.Po@am__quote@
