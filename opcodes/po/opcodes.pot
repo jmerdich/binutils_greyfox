@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://sourceware.org/bugzilla/\n"
-"POT-Creation-Date: 2024-01-04 22:43+1030\n"
+"POT-Creation-Date: 2024-01-09 14:18-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -725,36 +725,17 @@ msgstr ""
 msgid "unknown constraint `%c'"
 msgstr ""
 
-#: bpf-dis.c:55
-#, c-format
-msgid ""
-"\n"
-"The following BPF specific disassembler options are supported for use\n"
-"with the -M switch (multiple options should be separated by commas):\n"
-msgstr ""
-
-#: bpf-dis.c:59
-#, c-format
-msgid ""
-"      pseudoc                  Use pseudo-c syntax.\n"
-"      v1,v2,v3,v4,xbpf         Version of the BPF ISA to use.\n"
-"      hex,oct,dec              Output numerical base for immediates.\n"
+#. Default text to print if an instruction isn't recognized.
+#: bpf-dis.c:41 epiphany-dis.c:41 fr30-dis.c:41 frv-dis.c:41 ip2k-dis.c:41
+#: iq2000-dis.c:41 lm32-dis.c:41 m32c-dis.c:41 m32r-dis.c:41 mep-dis.c:41
+#: mmix-dis.c:293 mt-dis.c:41 nds32-dis.c:64 or1k-dis.c:41 xstormy16-dis.c:41
+msgid "*unknown*"
 msgstr ""
 
 #. The option without '=' should be defined above.
 #: bpf-dis.c:90 riscv-dis.c:120 riscv-dis.c:157
 #, c-format
 msgid "unrecognized disassembler option: %s"
-msgstr ""
-
-#: bpf-dis.c:166
-#, c-format
-msgid "unknown BPF CPU version %u\n"
-msgstr ""
-
-#: bpf-dis.c:296
-#, c-format
-msgid "# internal error, unknown tag in opcode template (%s)"
 msgstr ""
 
 #: cgen-asm.c:351 epiphany-ibld.c:203 fr30-ibld.c:203 frv-ibld.c:203
@@ -808,12 +789,12 @@ msgstr ""
 msgid "Address 0x%<PRIx64> is out of bounds.\n"
 msgstr ""
 
-#: disassemble.c:862
+#: disassemble.c:893
 #, c-format
 msgid "assertion fail %s:%d"
 msgstr ""
 
-#: disassemble.c:863
+#: disassemble.c:894
 msgid "Please report this bug"
 msgstr ""
 
@@ -872,11 +853,12 @@ msgstr ""
 #: ip2k-asm.c:792 ip2k-asm.c:899 iq2000-asm.c:647 iq2000-asm.c:651
 #: iq2000-asm.c:740 iq2000-asm.c:847 lm32-asm.c:537 lm32-asm.c:541
 #: lm32-asm.c:630 lm32-asm.c:737 m32c-asm.c:1772 m32c-asm.c:1776
-#: m32c-asm.c:1865 m32c-asm.c:1972 m32r-asm.c:516 m32r-asm.c:520 m32r-asm.c:609
-#: m32r-asm.c:716 mep-asm.c:1473 mep-asm.c:1477 mep-asm.c:1566 mep-asm.c:1673
-#: mt-asm.c:783 mt-asm.c:787 mt-asm.c:876 mt-asm.c:983 or1k-asm.c:763
-#: or1k-asm.c:767 or1k-asm.c:856 or1k-asm.c:963 xstormy16-asm.c:464
-#: xstormy16-asm.c:468 xstormy16-asm.c:557 xstormy16-asm.c:664
+#: m32c-asm.c:1865 m32c-asm.c:1972 m32r-asm.c:516 m32r-asm.c:520
+#: m32r-asm.c:609 m32r-asm.c:716 mep-asm.c:1473 mep-asm.c:1477 mep-asm.c:1566
+#: mep-asm.c:1673 mt-asm.c:783 mt-asm.c:787 mt-asm.c:876 mt-asm.c:983
+#: or1k-asm.c:763 or1k-asm.c:767 or1k-asm.c:856 or1k-asm.c:963
+#: xstormy16-asm.c:464 xstormy16-asm.c:468 xstormy16-asm.c:557
+#: xstormy16-asm.c:664
 msgid "unrecognized instruction"
 msgstr ""
 
@@ -935,20 +917,6 @@ msgstr ""
 #: epiphany-desc.c:2217
 #, c-format
 msgid "internal error: epiphany_cgen_cpu_open: no endianness specified"
-msgstr ""
-
-#. Default text to print if an instruction isn't recognized.
-#: epiphany-dis.c:41 fr30-dis.c:41 frv-dis.c:41 ip2k-dis.c:41 iq2000-dis.c:41
-#: lm32-dis.c:41 m32c-dis.c:41 m32r-dis.c:41 mep-dis.c:41 mmix-dis.c:293
-#: mt-dis.c:41 nds32-dis.c:64 or1k-dis.c:41 xstormy16-dis.c:41
-msgid "*unknown*"
-msgstr ""
-
-#: epiphany-dis.c:279 fr30-dis.c:300 frv-dis.c:397 ip2k-dis.c:289
-#: iq2000-dis.c:190 lm32-dis.c:148 m32c-dis.c:892 m32r-dis.c:280 mep-dis.c:1202
-#: mt-dis.c:288 or1k-dis.c:175 xstormy16-dis.c:169
-#, c-format
-msgid "internal error: unrecognized field %d while printing insn"
 msgstr ""
 
 #: epiphany-ibld.c:166 fr30-ibld.c:166 frv-ibld.c:166 ip2k-ibld.c:166

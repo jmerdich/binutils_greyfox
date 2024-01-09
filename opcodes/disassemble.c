@@ -28,6 +28,7 @@
 #define ARCH_aarch64
 #define ARCH_alpha
 #define ARCH_bpf
+#define ARCH_greyfox
 #define ARCH_ia64
 #define ARCH_loongarch
 #define ARCH_mips
@@ -189,6 +190,11 @@ disassembler (enum bfd_architecture a,
     case bfd_arch_dlx:
       /* As far as I know we only handle big-endian DLX objects.  */
       disassemble = print_insn_dlx;
+      break;
+#endif
+#ifdef ARCH_greyfox
+    case bfd_arch_greyfox:
+      disassemble = print_insn_greyfox;
       break;
 #endif
 #ifdef ARCH_h8300

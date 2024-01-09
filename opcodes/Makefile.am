@@ -95,6 +95,8 @@ TARGET64_LIBOPCODES_CFILES = \
 	alpha-opc.c \
 	bpf-dis.c \
 	bpf-opc.c \
+	greyfox-dis.c \
+	greyfox-opc.c \
 	ia64-dis.c \
 	ia64-opc.c \
 	loongarch-opc.c \

@@ -63,6 +63,8 @@ frv-opc.c
 frv-opc.h
 ft32-dis.c
 ft32-opc.c
+greyfox-dis.c
+greyfox-opc.c
 h8300-dis.c
 hppa-dis.c
 i386-dis.c
