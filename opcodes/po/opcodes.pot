@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://sourceware.org/bugzilla/\n"
-"POT-Creation-Date: 2024-01-09 14:18-0500\n"
+"POT-Creation-Date: 2024-01-11 22:06-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -86,7 +85,7 @@ msgstr ""
 
 #: aarch64-dis.c:4184 arc-dis.c:1607 arc-dis.c:1630 arc-dis.c:1633
 #: kvx-dis.c:1586 loongarch-dis.c:332 mips-dis.c:2903 mips-dis.c:2915
-#: mips-dis.c:2918 nfp-dis.c:2995 riscv-dis.c:1467 riscv-dis.c:1470
+#: mips-dis.c:2918 nfp-dis.c:2995 riscv-dis.c:1489 riscv-dis.c:1492
 #, c-format
 msgid "\n"
 msgstr ""
@@ -466,7 +465,7 @@ msgid ""
 "with the -M switch (multiple options should be separated by commas):\n"
 msgstr ""
 
-#: arc-dis.c:1616 mips-dis.c:2910 riscv-dis.c:1462
+#: arc-dis.c:1616 mips-dis.c:2910 riscv-dis.c:1484
 #, c-format
 msgid ""
 "\n"
@@ -725,17 +724,36 @@ msgstr ""
 msgid "unknown constraint `%c'"
 msgstr ""
 
-#. Default text to print if an instruction isn't recognized.
-#: bpf-dis.c:41 epiphany-dis.c:41 fr30-dis.c:41 frv-dis.c:41 ip2k-dis.c:41
-#: iq2000-dis.c:41 lm32-dis.c:41 m32c-dis.c:41 m32r-dis.c:41 mep-dis.c:41
-#: mmix-dis.c:293 mt-dis.c:41 nds32-dis.c:64 or1k-dis.c:41 xstormy16-dis.c:41
-msgid "*unknown*"
+#: bpf-dis.c:55
+#, c-format
+msgid ""
+"\n"
+"The following BPF specific disassembler options are supported for use\n"
+"with the -M switch (multiple options should be separated by commas):\n"
+msgstr ""
+
+#: bpf-dis.c:59
+#, c-format
+msgid ""
+"      pseudoc                  Use pseudo-c syntax.\n"
+"      v1,v2,v3,v4,xbpf         Version of the BPF ISA to use.\n"
+"      hex,oct,dec              Output numerical base for immediates.\n"
 msgstr ""
 
 #. The option without '=' should be defined above.
 #: bpf-dis.c:90 riscv-dis.c:120 riscv-dis.c:157
 #, c-format
 msgid "unrecognized disassembler option: %s"
+msgstr ""
+
+#: bpf-dis.c:166
+#, c-format
+msgid "unknown BPF CPU version %u\n"
+msgstr ""
+
+#: bpf-dis.c:296
+#, c-format
+msgid "# internal error, unknown tag in opcode template (%s)"
 msgstr ""
 
 #: cgen-asm.c:351 epiphany-ibld.c:203 fr30-ibld.c:203 frv-ibld.c:203
@@ -789,12 +807,12 @@ msgstr ""
 msgid "Address 0x%<PRIx64> is out of bounds.\n"
 msgstr ""
 
-#: disassemble.c:893
+#: disassemble.c:868
 #, c-format
 msgid "assertion fail %s:%d"
 msgstr ""
 
-#: disassemble.c:894
+#: disassemble.c:869
 msgid "Please report this bug"
 msgstr ""
 
@@ -917,6 +935,20 @@ msgstr ""
 #: epiphany-desc.c:2217
 #, c-format
 msgid "internal error: epiphany_cgen_cpu_open: no endianness specified"
+msgstr ""
+
+#. Default text to print if an instruction isn't recognized.
+#: epiphany-dis.c:41 fr30-dis.c:41 frv-dis.c:41 ip2k-dis.c:41 iq2000-dis.c:41
+#: lm32-dis.c:41 m32c-dis.c:41 m32r-dis.c:41 mep-dis.c:41 mmix-dis.c:293
+#: mt-dis.c:41 nds32-dis.c:64 or1k-dis.c:41 xstormy16-dis.c:41
+msgid "*unknown*"
+msgstr ""
+
+#: epiphany-dis.c:279 fr30-dis.c:300 frv-dis.c:397 ip2k-dis.c:289
+#: iq2000-dis.c:190 lm32-dis.c:148 m32c-dis.c:892 m32r-dis.c:280
+#: mep-dis.c:1202 mt-dis.c:288 or1k-dis.c:175 xstormy16-dis.c:169
+#, c-format
+msgid "internal error: unrecognized field %d while printing insn"
 msgstr ""
 
 #: epiphany-ibld.c:166 fr30-ibld.c:166 frv-ibld.c:166 ip2k-ibld.c:166
@@ -1986,24 +2018,24 @@ msgid ""
 "mis-matched privilege spec set by %s=%s, the elf privilege attribute is %s"
 msgstr ""
 
-#: riscv-dis.c:741
+#: riscv-dis.c:763
 #, c-format
 msgid "# internal error, undefined modifier (%c)"
 msgstr ""
 
-#: riscv-dis.c:1343
+#: riscv-dis.c:1365
 msgid "Print numeric register names, rather than ABI names."
 msgstr ""
 
-#: riscv-dis.c:1346
+#: riscv-dis.c:1368
 msgid "Disassemble only into canonical instructions."
 msgstr ""
 
-#: riscv-dis.c:1349
+#: riscv-dis.c:1371
 msgid "Print the CSR according to the chosen privilege spec."
 msgstr ""
 
-#: riscv-dis.c:1425
+#: riscv-dis.c:1447
 #, c-format
 msgid ""
 "\n"
