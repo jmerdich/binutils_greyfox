@@ -40,8 +40,8 @@
 
 typedef struct greyfox_opc_info_t
 {
-	short opcode;    /* opcode (always within 16b )*/
-	short mask;      /* mask of the opcode */
+	unsigned short opcode;    /* opcode (always within 16b )*/
+	unsigned short mask;      /* mask of the opcode */
 	char  type;      /* type of the op */
 	char  len;       /* len of the op, including immediates */
 	short typeflags; /* typeflags of the op (can derive len from this) */
