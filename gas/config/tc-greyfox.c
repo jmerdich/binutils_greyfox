@@ -63,6 +63,51 @@ md_begin (void)
   bfd_set_arch_mach (stdoutput, TARGET_ARCH, 0);
 }
 
+static int
+parse_register_operand(char** ptr, char kind)
+{
+	int reg = 0;
+	if (**ptr != kind)
+	{
+		// Not 'i##' or 'f##'
+		goto bad_reg;
+	}
+	(*ptr)++;
+
+	if (**ptr > '9' || **ptr < '0')
+	{
+		// Need at least one digit
+		goto bad_reg;
+	}
+	reg = **ptr - '0';
+	(*ptr)++;
+
+	if (reg > 0 && **ptr <= '9' && **ptr >= '0')
+	{
+		// Try to parse second digit if present
+		reg = (reg * 10) + (**ptr - '0');
+		(*ptr)++;
+	}
+
+	if (**ptr <= '9' && **ptr >= '0')
+	{
+		// 3+ digit numbers are bad
+		goto bad_reg;
+	}
+
+	if (reg > 15)
+	{
+		// Out of bounds
+		goto bad_reg;
+	}
+	return reg;
+
+	bad_reg:
+		as_bad("expecting register %c0-%c15", kind, kind);
+		ignore_rest_of_line();
+		return -1;
+}
+
 /* This is the guts of the machine-dependent assembler.  STR points to
    a machine dependent instruction.  This function is supposed to emit
    the frags/bytes it assembles to.  */
@@ -75,7 +120,6 @@ md_assemble (char *str)
 
   greyfox_opc_info_t *opcode;
   char *output;
-  int idx = 0;
   char pend;
 
   int nlen = 0;
@@ -106,8 +150,50 @@ md_assemble (char *str)
       return;
     }
 
-  output = frag_more (1);
-  output[idx++] = opcode->opcode;
+  output = frag_more (opcode->len);
+  uint16_t instr = opcode->opcode;
+  uint64_t imm = 0;
+  switch (opcode->type)
+  {
+	case GREYFOX_OPC_TYPE_NO_OPERAND:
+		break;
+	case GREYFOX_OPC_TYPE_ONE_OPERAND:
+	case GREYFOX_OPC_TYPE_TWO_OPERAND_SAME:
+		while (ISSPACE(*op_end))
+		  op_end++;
+		if (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_A_IS_CP)
+		{
+			// TODO
+			as_bad("cp instructions not implemented!");
+		}
+		else
+		{
+		  char kind = (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_A_IS_FLOAT) ? 'f' : 'i';
+		  int regA = parse_register_operand(&op_end, kind);
+		  instr |= regA;
+		  if (opcode->type == GREYFOX_OPC_TYPE_TWO_OPERAND_SAME)
+		    instr |= (regA << 4);
+		}
+		while (ISSPACE (*op_end))
+		  op_end++;
+		if (*op_end != 0)
+		  as_warn ("extra stuff on line ignored");
+		break;
+	case GREYFOX_OPC_TYPE_TWO_OPERAND:
+	case GREYFOX_OPC_TYPE_THREE_OPERAND:
+	case GREYFOX_OPC_TYPE_SHORT_BRANCH:
+	case GREYFOX_OPC_TYPE_SVC:
+	case GREYFOX_OPC_TYPE_HVC:
+		// TODO!
+		break;
+	default:
+		abort();
+  }
+  md_number_to_chars(output, instr, 2);
+  if (opcode->len > 2)
+  {
+	md_number_to_chars(output + 2, imm, opcode->len - 2);
+  }
   
   while (ISSPACE (*op_end))
     op_end++;
@@ -191,12 +277,12 @@ md_apply_fix (fixS *fixP ATTRIBUTE_UNUSED, valueT * valP ATTRIBUTE_UNUSED, segT 
   /* Empty for now.  */
 }
 
-/* Put number into target byte order (big endian).  */
+/* Put number into target byte order (little endian).  */
 
 void
 md_number_to_chars (char *ptr, valueT use, int nbytes)
 {
-  number_to_chars_bigendian (ptr, use, nbytes);
+  number_to_chars_littleendian (ptr, use, nbytes);
 }
 
 /* Translate internal representation of relocation info to BFD target
