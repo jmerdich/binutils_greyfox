@@ -39,8 +39,8 @@
 #define md_convert_frag(B, S, F)            as_fatal (_("convert_frag\n"))
 
 /* PC relative operands are relative to the start of the opcode, and
-   the operand is always one byte into the opcode.  */
+   the operand is always two bytes into the opcode.  */
 #define md_pcrel_from(FIX) 						\
-	((FIX)->fx_where + (FIX)->fx_frag->fr_address - 1)
+	((FIX)->fx_where + (FIX)->fx_frag->fr_address - 2)
 
 #define md_section_align(SEGMENT, SIZE)     (SIZE)

@@ -153,12 +153,18 @@ md_assemble (char *str)
   output = frag_more (opcode->len);
   uint16_t instr = opcode->opcode;
   uint64_t imm = 0;
+  bool     parsedReg = false;
   switch (opcode->type)
   {
 	case GREYFOX_OPC_TYPE_NO_OPERAND:
+		while (ISSPACE (*op_end))
+		  op_end++;
+		if (*op_end != 0)
+		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_ONE_OPERAND:
 	case GREYFOX_OPC_TYPE_TWO_OPERAND_SAME:
+		parsedReg = true;
 		while (ISSPACE(*op_end))
 		  op_end++;
 		if (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_A_IS_CP)
@@ -180,6 +186,7 @@ md_assemble (char *str)
 		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_TWO_OPERAND:
+		parsedReg = true;
 		while (ISSPACE(*op_end))
 		  op_end++;
 		{
@@ -204,6 +211,7 @@ md_assemble (char *str)
 		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_THREE_OPERAND:
+		parsedReg = true;
 		while (ISSPACE(*op_end))
 		  op_end++;
 		{
@@ -243,6 +251,74 @@ md_assemble (char *str)
 	default:
 		abort();
   }
+
+  // Parse immediates
+  if (opcode->len > 2)
+  {
+	if (parsedReg)
+	{
+	  if (*op_end != ',')
+	   as_warn ("expecting comma delimited register operands");
+	  op_end++;
+	}	
+	while (ISSPACE(*op_end))
+	  op_end++;
+
+	if (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_IMM_IS_FLOAT)
+	{
+		// TODO
+	}
+	else
+	{
+		// Any integer can be a calculated value, so use that
+		bool isPcRel = (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_IMM_IS_PCREL) != 0;
+		char* save = input_line_pointer;
+		input_line_pointer = op_end;
+		expressionS op;
+		expression(&op);
+		op_end = input_line_pointer;
+		input_line_pointer = save;
+		enum bfd_reloc_code_real relocType = 0;
+		if (isPcRel) {
+			switch (opcode->len) {
+				case 4: 
+				    relocType = BFD_RELOC_16_PCREL;
+				    break;
+				case 6: 
+				    relocType = BFD_RELOC_32_PCREL;
+				    break;
+				case 10: 
+				    relocType = BFD_RELOC_64_PCREL;
+				    break;
+			}
+		} else {
+			switch (opcode->len) {
+				case 3: 
+				    relocType = BFD_RELOC_8;
+				    break;
+				case 4: 
+				    relocType = BFD_RELOC_16;
+				    break;
+				case 6: 
+				    relocType = BFD_RELOC_32;
+				    break;
+				case 10: 
+				    relocType = BFD_RELOC_64;
+				    break;
+			}
+
+		}
+		
+		fix_new_exp(frag_now,
+		            (output + 2 - frag_now->fr_literal),
+			    opcode->len - 2,
+			    &op,
+			    isPcRel,
+			    relocType);
+
+	}
+  }
+
   md_number_to_chars(output, instr, 2);
   if (opcode->len > 2)
   {
@@ -326,6 +402,55 @@ md_show_usage (FILE *stream ATTRIBUTE_UNUSED)
 /* Apply a fixup to the object file.  */
 
 void
+md_apply_fix (fixS *fixP, valueT * valP, segT seg ATTRIBUTE_UNUSED)
+{
+  char *buf = fixP->fx_where + fixP->fx_frag->fr_literal;
+  valueT val = *valP;
+  valueT max, min;
+//   int shift;
+
+  max = min = 0;
+//   shift = 0;
+  switch (fixP->fx_r_type)
+    {
+    case BFD_RELOC_8:
+      *buf++ = val;
+      break;
+    case BFD_RELOC_16:
+    case BFD_RELOC_16_PCREL:
+      *buf++ = val >> 0;
+      *buf++ = val >> 8;
+      break;
+    case BFD_RELOC_32:
+    case BFD_RELOC_32_PCREL:
+      *buf++ = val >> 0;
+      *buf++ = val >> 8;
+      *buf++ = val >> 16;
+      *buf++ = val >> 24;
+      break;
+    case BFD_RELOC_64:
+    case BFD_RELOC_64_PCREL:
+      *buf++ = val >> 0;
+      *buf++ = val >> 8;
+      *buf++ = val >> 16;
+      *buf++ = val >> 24;
+      *buf++ = val >> 32;
+      *buf++ = val >> 40;
+      *buf++ = val >> 48;
+      *buf++ = val >> 56;
+      break;
+
+    default:
+      abort ();
+    }
+
+  if (max != 0 && (val < min || val > max))
+    as_bad_where (fixP->fx_file, fixP->fx_line, _("offset out of range"));
+
+  if (fixP->fx_addsy == NULL && fixP->fx_pcrel == 0)
+    fixP->fx_done = 1;
+}
+
 md_apply_fix (fixS *fixP ATTRIBUTE_UNUSED, valueT * valP ATTRIBUTE_UNUSED, segT seg ATTRIBUTE_UNUSED)
 {
   /* Empty for now.  */

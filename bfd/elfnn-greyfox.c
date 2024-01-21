@@ -40,6 +40,19 @@ static reloc_howto_type greyfox_elf_howto_table[] =
          0, /* src mask*/
          0, /* dst mask*/
          0), /* pcrel offset */
+   HOWTO(R_GREYFOX_ABS_8, /* type*/
+         0, /* right shift */
+         0, /* size (pow2) */
+         8, /* bitsize*/
+         false, /* pcrel */
+         0, /* bitpos*/
+         complain_overflow_unsigned,
+         bfd_elf_generic_reloc, /* special func??? */
+         "R_GREYFOX_ABS_8", /* name */
+         false, /* partial implace */
+         0, /* src mask*/
+         0xFF, /* dst mask*/
+         0), /* pcrel offset */
    HOWTO(R_GREYFOX_ABS_16, /* type*/
          0, /* right shift */
          1, /* size (pow2) */
@@ -66,6 +79,19 @@ static reloc_howto_type greyfox_elf_howto_table[] =
          0, /* src mask*/
          0xFFFFFFFF, /* dst mask*/
          0), /* pcrel offset */
+   HOWTO(R_GREYFOX_ABS_64, /* type*/
+         0, /* right shift */
+         3, /* size (pow2?) */
+         64, /* bitsize*/
+         false, /* pcrel */
+         0, /* bitpos*/
+         complain_overflow_unsigned,
+         bfd_elf_generic_reloc, /* special func??? */
+         "R_GREYFOX_ABS_64", /* name */
+         false, /* partial implace */
+         0, /* src mask*/
+         0xFFFFFFFFFFFFFFFF, /* dst mask*/
+         0), /* pcrel offset */
 };
 
 struct elf_reloc_map
@@ -76,7 +102,10 @@ struct elf_reloc_map
 
 static const struct elf_reloc_map greyfox_reloc_map[] = {
    { BFD_RELOC_NONE, R_GREYFOX_NONE },
+   { BFD_RELOC_8,    R_GREYFOX_ABS_8},
+   { BFD_RELOC_16,   R_GREYFOX_ABS_16},
    { BFD_RELOC_32,   R_GREYFOX_ABS_32},
+   { BFD_RELOC_64,   R_GREYFOX_ABS_64},
 };
 
 static reloc_howto_type*
