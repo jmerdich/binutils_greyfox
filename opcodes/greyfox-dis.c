@@ -110,7 +110,7 @@ print_insn_greyfox(bfd_vma addr, struct disassemble_info *info)
 			    (opci->typeflags & GREYFOX_OPC_TYPEFLAG_A_IS_FLOAT ? 'f' : 'i'),
 			    opcode & 0xF,
 			    (opci->typeflags & GREYFOX_OPC_TYPEFLAG_BC_IS_FLOAT ? 'f' : 'i'),
-			    (opcode >> 8) & 0xF);
+			    (opcode >> 4) & 0xF);
 			immNeedsComma = true;
 			break;
 		case GREYFOX_OPC_TYPE_THREE_OPERAND:
@@ -121,9 +121,9 @@ print_insn_greyfox(bfd_vma addr, struct disassemble_info *info)
 			    (opci->typeflags & GREYFOX_OPC_TYPEFLAG_A_IS_FLOAT ? 'f' : 'i'),
 			    opcode & 0xF,
 			    (opci->typeflags & GREYFOX_OPC_TYPEFLAG_BC_IS_FLOAT ? 'f' : 'i'),
-			    (opcode >> 8) & 0xF,
+			    (opcode >> 4) & 0xF,
 			    (opci->typeflags & GREYFOX_OPC_TYPEFLAG_BC_IS_FLOAT ? 'f' : 'i'),
-			    (opcode >> 16) & 0xF);
+			    (opcode >> 8) & 0xF);
 			break;
 		case GREYFOX_OPC_TYPE_SHORT_BRANCH:
 			OPCODES_ASSERT(opci->len == 2);
@@ -169,7 +169,7 @@ print_insn_greyfox(bfd_vma addr, struct disassemble_info *info)
 	}
 
 
-	return 1;
+	return opci->len;
 
 fail:
 	info->memory_error_func(status, addr, info);
