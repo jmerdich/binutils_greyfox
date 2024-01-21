@@ -180,7 +180,61 @@ md_assemble (char *str)
 		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_TWO_OPERAND:
+		while (ISSPACE(*op_end))
+		  op_end++;
+		{
+		  char kindA = (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_A_IS_FLOAT) ? 'f' : 'i';
+		  int regA = parse_register_operand(&op_end, kindA);
+		
+		  if (*op_end != ',')
+		   as_warn ("expecting comma delimited register operands");
+		  op_end++;
+		  while (ISSPACE(*op_end))
+		    op_end++;
+
+		  char kindB = (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_BC_IS_FLOAT) ? 'f' : 'i';
+		  int regB = parse_register_operand(&op_end, kindB);
+
+		  instr |= regA;
+		  instr |= (regB << 4);
+		}
+		while (ISSPACE (*op_end))
+		  op_end++;
+		if (*op_end != 0)
+		  as_warn ("extra stuff on line ignored");
+		break;
 	case GREYFOX_OPC_TYPE_THREE_OPERAND:
+		while (ISSPACE(*op_end))
+		  op_end++;
+		{
+		  char kindA = (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_A_IS_FLOAT) ? 'f' : 'i';
+		  int regA = parse_register_operand(&op_end, kindA);
+		
+		  if (*op_end != ',')
+		   as_warn ("expecting comma delimited register operands");
+		  op_end++;
+		  while (ISSPACE(*op_end))
+		    op_end++;
+
+		  char kindB = (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_BC_IS_FLOAT) ? 'f' : 'i';
+		  int regB = parse_register_operand(&op_end, kindB);
+
+		  if (*op_end != ',')
+		   as_warn ("expecting comma delimited register operands");
+		  op_end++;
+		  while (ISSPACE(*op_end))
+		    op_end++;
+		  int regC = parse_register_operand(&op_end, kindB);
+
+		  instr |= regA;
+		  instr |= (regB << 4);
+		  instr |= (regC << 8);
+		}
+		while (ISSPACE (*op_end))
+		  op_end++;
+		if (*op_end != 0)
+		  as_warn ("extra stuff on line ignored");
+		break;
 	case GREYFOX_OPC_TYPE_SHORT_BRANCH:
 	case GREYFOX_OPC_TYPE_SVC:
 	case GREYFOX_OPC_TYPE_HVC:
