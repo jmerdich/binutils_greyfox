@@ -152,15 +152,10 @@ md_assemble (char *str)
 
   output = frag_more (opcode->len);
   uint16_t instr = opcode->opcode;
-  uint64_t imm = 0;
   bool     parsedReg = false;
   switch (opcode->type)
   {
 	case GREYFOX_OPC_TYPE_NO_OPERAND:
-		while (ISSPACE (*op_end))
-		  op_end++;
-		if (*op_end != 0)
-		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_ONE_OPERAND:
 	case GREYFOX_OPC_TYPE_TWO_OPERAND_SAME:
@@ -180,10 +175,6 @@ md_assemble (char *str)
 		  if (opcode->type == GREYFOX_OPC_TYPE_TWO_OPERAND_SAME)
 		    instr |= (regA << 4);
 		}
-		while (ISSPACE (*op_end))
-		  op_end++;
-		if (*op_end != 0)
-		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_TWO_OPERAND:
 		parsedReg = true;
@@ -205,10 +196,6 @@ md_assemble (char *str)
 		  instr |= regA;
 		  instr |= (regB << 4);
 		}
-		while (ISSPACE (*op_end))
-		  op_end++;
-		if (*op_end != 0)
-		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_THREE_OPERAND:
 		parsedReg = true;
@@ -238,15 +225,47 @@ md_assemble (char *str)
 		  instr |= (regB << 4);
 		  instr |= (regC << 8);
 		}
-		while (ISSPACE (*op_end))
-		  op_end++;
-		if (*op_end != 0)
-		  as_warn ("extra stuff on line ignored");
 		break;
 	case GREYFOX_OPC_TYPE_SHORT_BRANCH:
+		while (ISSPACE(*op_end))
+		  op_end++;
+		{
+			char* save = input_line_pointer;
+			input_line_pointer = op_end;
+			expressionS op;
+			expression(&op);
+			op_end = input_line_pointer;
+			input_line_pointer = save;
+			fix_new_exp(frag_now,
+				(output - frag_now->fr_literal),
+				2,
+				&op,
+				true,
+				BFD_RELOC_12_PCREL);
+		}
+		break;
 	case GREYFOX_OPC_TYPE_SVC:
 	case GREYFOX_OPC_TYPE_HVC:
-		// TODO!
+		while (ISSPACE(*op_end))
+		  op_end++;
+		{
+			char* save = input_line_pointer;
+			input_line_pointer = op_end;
+			expressionS op = {0};
+			expression_and_evaluate(&op);
+			op_end = input_line_pointer;
+			input_line_pointer = save;
+
+			if (op.X_op != O_constant)
+			{
+				as_bad("Bad expression");
+			}
+			if (op.X_add_number < 0 || op.X_add_number > 0x1FF)
+			{
+				as_bad("Out of range");
+			}
+			instr += op.X_add_number;
+		}
 		break;
 	default:
 		abort();
@@ -267,6 +286,7 @@ md_assemble (char *str)
 	if (opcode->typeflags & GREYFOX_OPC_TYPEFLAG_IMM_IS_FLOAT)
 	{
 		// TODO
+		as_bad("float immediates not implemented!");
 	}
 	else
 	{
@@ -320,10 +340,6 @@ md_assemble (char *str)
   }
 
   md_number_to_chars(output, instr, 2);
-  if (opcode->len > 2)
-  {
-	md_number_to_chars(output + 2, imm, opcode->len - 2);
-  }
   
   while (ISSPACE (*op_end))
     op_end++;
@@ -413,6 +429,10 @@ md_apply_fix (fixS *fixP, valueT * valP, segT seg ATTRIBUTE_UNUSED)
 //   shift = 0;
   switch (fixP->fx_r_type)
     {
+    case BFD_RELOC_12_PCREL:
+      buf[0] = val >> 1;
+      buf[1] |= (val >> 9) & 0x7;
+      break;
     case BFD_RELOC_8:
       *buf++ = val;
       break;
@@ -451,10 +471,6 @@ md_apply_fix (fixS *fixP, valueT * valP, segT seg ATTRIBUTE_UNUSED)
     fixP->fx_done = 1;
 }
 
-md_apply_fix (fixS *fixP ATTRIBUTE_UNUSED, valueT * valP ATTRIBUTE_UNUSED, segT seg ATTRIBUTE_UNUSED)
-{
-  /* Empty for now.  */
-}
 
 /* Put number into target byte order (little endian).  */
 

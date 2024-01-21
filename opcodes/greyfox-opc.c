@@ -421,8 +421,8 @@ const greyfox_opc_info_t greyfox_opc_info[] =
     /* 0x098x-0x09Fx are reserved */
     
     // Environment calls
-    { 0x0A00, 0xFC00, GREYFOX_OPC_TYPE_SVC, 2, 0, "svc" },
-    { 0x0D00, 0xFC00, GREYFOX_OPC_TYPE_HVC, 2, 0, "hvc" },
+    { 0x0A00, 0xFE00, GREYFOX_OPC_TYPE_SVC, 2, 0, "svc" },
+    { 0x0C00, 0xFE00, GREYFOX_OPC_TYPE_HVC, 2, 0, "hvc" },
 
     // No operand class
     // Flow control
